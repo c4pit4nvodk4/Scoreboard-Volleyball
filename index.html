@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Marcador Profesional Voleibol</title>
+<style>
+:root{--text:#f7f9ff;--muted:#aeb8d0;--line:rgba(255,255,255,.17);--shadow:0 14px 38px rgba(0,0,0,.36)}
+*{box-sizing:border-box}html,body{margin:0;width:100%;min-height:100%;font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--text);background:transparent}body{overflow-x:hidden}button,input,select{font:inherit}button{cursor:pointer;border:1px solid rgba(255,255,255,.13);border-radius:10px;min-height:42px;padding:9px 11px;color:white;font-weight:800;background:#26334c;transition:transform .15s,filter .15s}button:hover{filter:brightness(1.16);transform:translateY(-1px)}button:active{transform:scale(.98)}button:disabled{opacity:.42;cursor:not-allowed;transform:none}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #60a5fa;outline-offset:2px}.green{background:linear-gradient(135deg,#15803d,#22c55e)}.red{background:linear-gradient(135deg,#991b1b,#ef4444)}.blue{background:linear-gradient(135deg,#1d4ed8,#3b82f6)}.yellow{background:linear-gradient(135deg,#c47b08,#fbbf24);color:#141414}.dark{background:linear-gradient(135deg,#111827,#334155)}.light{background:linear-gradient(135deg,#e5e7eb,#fff);color:#111827}
+.stage{display:flex;flex-direction:column;align-items:center;margin:28px 14px 0;gap:10px;transition:opacity .35s,transform .35s}.stage.off{opacity:0;transform:translateY(-12px);pointer-events:none}.board{position:relative;isolation:isolate;display:flex;align-items:center;gap:16px;padding:15px 25px;min-height:116px;max-width:100%;border-radius:20px;border:1px solid rgba(255,255,255,.23);background:linear-gradient(180deg,rgba(255,255,255,.10),transparent 46%),linear-gradient(118deg,#071028,#102c6d 44%,#1f3fb2 72%,#11182e);box-shadow:var(--shadow),inset 0 1px rgba(255,255,255,.16);overflow:hidden}.board:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(105deg,transparent 18%,rgba(255,255,255,.12) 48%,transparent 72%);transform:translateX(-125%);animation:shine 8s ease-in-out infinite}.board:after{content:"";position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#2dd4bf,#60a5fa,#818cf8)}@keyframes shine{0%,68%{transform:translateX(-125%)}85%,100%{transform:translateX(125%)}}.team{display:flex;align-items:center;gap:12px;min-width:138px}.team.right{flex-direction:row-reverse}.logo{height:64px;width:64px;object-fit:contain;display:none;filter:drop-shadow(0 4px 6px rgba(0,0,0,.3))}.name{min-width:78px;font-size:30px;font-weight:950;letter-spacing:1px;text-align:center;text-shadow:0 3px 7px rgba(0,0,0,.4);overflow-wrap:anywhere}.serve{display:none;font-size:17px;color:#fef08a;text-shadow:0 0 12px rgba(250,204,21,.8)}.serve.on{display:inline}.divider{font-size:28px;color:rgba(255,255,255,.33)}.pointbox{min-width:190px;padding:8px 14px;border:1px solid var(--line);border-radius:14px;background:rgba(2,6,23,.58);display:flex;justify-content:center;align-items:center;gap:11px;box-shadow:inset 0 1px rgba(255,255,255,.08)}.points{font-size:56px;font-weight:950;line-height:1;font-variant-numeric:tabular-nums;min-width:55px;text-align:center}.dash{font-size:28px;color:#95a8cb}.sets{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:74px}.sets small{font-size:11px;color:#c4d6fd;letter-spacing:1.5px;font-weight:900}.setnumbers{font-size:33px;line-height:1;font-weight:950;font-variant-numeric:tabular-nums;white-space:nowrap}.tag{font-size:13px;font-weight:850;padding:5px 13px;border-radius:999px;border:1px solid var(--line);background:linear-gradient(120deg,#0e285f,#204aaa);box-shadow:0 5px 16px rgba(0,0,0,.22)}.under{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;max-width:95vw}.history{font-size:12px;color:#e4eeff;padding:7px 12px;background:rgba(9,23,55,.86);border:1px solid var(--line);border-radius:9px}.timeout-chips{font-size:12px;color:#e4eeff;padding:7px 12px;background:rgba(9,23,55,.86);border:1px solid var(--line);border-radius:9px}.banner{position:absolute;top:154px;left:50%;transform:translateX(-50%);background:linear-gradient(110deg,#067f63,#1e9b6d,#2354b7);padding:12px 25px;border-radius:999px;white-space:nowrap;font-size:25px;font-weight:950;letter-spacing:1px;box-shadow:0 9px 25px #0008;z-index:3;pointer-events:none;animation:banner 1.65s forwards}@keyframes banner{0%{opacity:0;transform:translate(-50%,-12px) scale(.75)}18%,70%{opacity:1;transform:translate(-50%,0) scale(1)}100%{opacity:0;transform:translate(-50%,-8px) scale(.94)}}.pulse{animation:pulse .65s ease-out}@keyframes pulse{35%{transform:scale(1.16);color:#86efac}100%{transform:scale(1);color:#fff}}
+.panel{position:fixed;bottom:12px;left:12px;right:12px;padding:12px;display:grid;grid-template-columns:1fr 1fr 1.1fr;gap:12px;border:1px solid var(--line);border-radius:18px;background:rgba(8,13,25,.95);box-shadow:0 16px 40px #0007;backdrop-filter:blur(12px);max-height:64vh;overflow:auto}.section{min-width:0;display:flex;flex-direction:column;gap:7px}.heading{font-size:12px;color:#bac8e5;font-weight:900;text-transform:uppercase;letter-spacing:1px;text-align:center}.row{display:grid;grid-template-columns:1fr 1fr;gap:7px}.full{width:100%}.info{font-size:12px;color:#becbe2;text-align:center;line-height:1.4}.selectbox{display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;font-weight:750}.selectbox select{background:#142442;color:white;border:1px solid var(--line);border-radius:8px;padding:7px}.notice{margin:8px 16px;text-align:center;font-size:12px;color:#c6d1eb}.hide-controls{display:none!important}.modal{position:fixed;inset:0;background:rgba(2,6,23,.75);display:none;align-items:center;justify-content:center;z-index:10;padding:20px}.modal.open{display:flex}.dialog{width:min(420px,100%);background:linear-gradient(145deg,#15213a,#090f1e);border:1px solid var(--line);padding:25px;border-radius:18px;box-shadow:0 22px 60px #000a}.dialog h2{margin:0 0 10px;font-size:23px}.dialog p{font-size:14px;color:#cdd8ed;line-height:1.5}.dialog input{width:100%;padding:12px 14px;background:#080e1d;color:#fff;border:1px solid #60718d;border-radius:9px;font-size:21px;font-weight:800;text-transform:uppercase}.dialog-actions{display:flex;gap:9px;margin-top:15px}.dialog-actions button{flex:1}.toast{position:fixed;top:15px;right:15px;padding:10px 16px;border-radius:10px;background:#142c52;color:white;z-index:20;opacity:0;pointer-events:none;transition:opacity .2s}.toast.show{opacity:1}
+@media(max-width:850px){.board{gap:8px;padding:12px}.team{min-width:80px;gap:5px}.logo{width:39px;height:39px}.name{min-width:45px;font-size:20px}.points{font-size:39px;min-width:36px}.pointbox{min-width:117px;padding:6px;gap:5px}.sets{min-width:48px}.setnumbers{font-size:23px}.sets small{font-size:9px}.divider{display:none}.panel{grid-template-columns:1fr 1fr;max-height:55vh}.section:last-child{grid-column:1/-1}}@media(max-width:480px){.board{gap:4px;padding:10px 5px;min-height:85px}.team{min-width:49px;flex-direction:column!important;gap:1px}.logo{width:25px;height:25px}.name{font-size:15px;min-width:30px;max-width:63px}.points{font-size:31px;min-width:27px}.pointbox{min-width:82px;gap:2px;padding:6px 3px}.dash{font-size:15px}.sets{min-width:39px}.setnumbers{font-size:18px}.sets small{font-size:8px}.panel{bottom:4px;left:4px;right:4px;padding:7px;gap:7px}.section button{font-size:12px;padding:7px 5px}.heading{font-size:10px}}
+body.obs .panel,body.obs .notice,body.obs .remote-footer{display:none!important}body.obs .stage{margin-top:18px}body.obs{overflow:hidden}
+
+/* ENLACE REMOTO */
+.remote-shade{position:fixed;inset:0;z-index:90;background:rgba(2,6,23,.93);display:none;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(10px)}
+.remote-shade.open{display:flex}.remote-card{width:min(520px,100%);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:25px;background:linear-gradient(145deg,#182e52,#0a1224);text-align:center;box-shadow:0 24px 70px #0009}.remote-card h2{margin:0 0 8px;font-size:24px}.remote-card p{color:#cbd5e1;font-size:14px;line-height:1.5}.qr-holder{margin:18px auto;width:224px;min-height:224px;border-radius:12px;background:white;display:flex;align-items:center;justify-content:center;padding:12px;color:#101827;font-weight:800;overflow:hidden}.qr-holder img,.qr-holder canvas{max-width:200px!important;max-height:200px!important}.remote-status{font-size:13px;color:#bfdbfe;margin-top:8px;overflow-wrap:anywhere}.remote-url{font-size:12px;background:#060c19;border:1px solid #45516a;border-radius:8px;padding:10px;overflow-wrap:anywhere;color:#cbd5e1;text-align:left}.remote-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.remote-actions button{flex:1;min-width:125px}.remote-footer{position:fixed;left:12px;bottom:5px;z-index:2;color:#a8e5d0;font-size:11px;pointer-events:none}.phone-only{display:none}body.remote .phone-only{display:block}body.remote .stage{display:none}body.remote .panel{position:relative;left:auto;right:auto;bottom:auto;max-height:none;margin:12px;grid-template-columns:1fr 1fr;overflow:visible}body.remote .panel .section:last-child{grid-column:1/-1}body.remote .notice{display:none}body.remote{background:#080f20;min-height:100vh;padding-bottom:20px}body.viewer .panel,body.viewer .notice{display:none!important}body.viewer .stage{margin-top:18px}body.viewer{overflow:hidden}body.remote .remote-footer{display:none}
+@media(max-width:520px){body.remote .panel{grid-template-columns:1fr 1fr;gap:7px;padding:8px}body.remote .section button{min-height:47px}body.remote .remote-actions button{min-height:44px}}
+</style>
+</head>
+<body>
+<main class="stage" id="stage" aria-label="Marcador de voleibol">
+  <div class="board" id="board">
+    <div class="team"><img id="logoA" class="logo" alt="Logo equipo A"><span class="serve" id="serveA" title="Equipo al saque">●</span><span class="name" id="nameA">AAAA</span></div>
+    <div class="divider">|</div>
+    <div class="sets"><small>SETS</small><div class="setnumbers"><span id="setsA">0</span> : <span id="setsB">0</span></div></div>
+    <div class="pointbox"><span class="points" id="pointsA">0</span><span class="dash">–</span><span class="points" id="pointsB">0</span></div>
+    <div class="divider">|</div>
+    <div class="team right"><img id="logoB" class="logo" alt="Logo equipo B"><span class="serve" id="serveB" title="Equipo al saque">●</span><span class="name" id="nameB">BBBB</span></div>
+  </div>
+  <div class="under"><span class="tag" id="setLabel">SET 1 · A 25 PUNTOS</span><span class="history" id="history">SETS ANTERIORES: —</span><span class="timeout-chips" id="timeouts">TIEMPOS MUERTOS · A 0/2 · B 0/2</span></div>
+  <div class="tag" id="matchStatus" hidden>PARTIDO FINALIZADO</div>
+</main>
+<div class="phone-only" style="padding:15px 15px 0"><strong>🏐 CONTROL REMOTO VOLEIBOL</strong><div id="phoneStatus" class="remote-status">Conectando con el marcador…</div></div>
+<div class="panel" id="panel">
+  <section class="section"><div class="heading">Equipo A</div><div class="row"><button class="light" id="logoBtnA">Subir logo A</button><button class="dark" id="nameBtnA">Nombre A</button></div><button class="green full" id="plusA">+1 PUNTO A</button><div class="row"><button class="red" id="minusA">−1 Punto A</button><button class="blue" id="timeoutA">Tiempo muerto A</button></div><button class="dark full" id="serveBtnA">Asignar saque a A</button></section>
+  <section class="section"><div class="heading">Equipo B</div><div class="row"><button class="light" id="logoBtnB">Subir logo B</button><button class="dark" id="nameBtnB">Nombre B</button></div><button class="green full" id="plusB">+1 PUNTO B</button><div class="row"><button class="red" id="minusB">−1 Punto B</button><button class="blue" id="timeoutB">Tiempo muerto B</button></div><button class="dark full" id="serveBtnB">Asignar saque a B</button></section>
+  <section class="section"><div class="heading">Partido y transmisión</div><div class="selectbox"><label for="format">Formato:</label><select id="format"><option value="5">Mejor de 5 sets</option><option value="3">Mejor de 3 sets</option></select></div><div class="row"><button class="yellow" id="nextSet">Siguiente set</button><button class="dark" id="undo">↶ Deshacer</button></div><div class="row"><button class="blue" id="toggle">Mostrar / ocultar</button><button class="dark" id="reset">Reiniciar partido</button></div><div class="info" id="helper">Los sets se cierran automáticamente al alcanzar la puntuación reglamentaria. Pulsa “Siguiente set” para continuar.</div><div class="info">OBS: abre esta página agregando <strong>?obs=1</strong> a la URL para ocultar los controles.</div></section>
+</div>
+<div class="notice" id="notice">Datos guardados en este navegador. Para transmitir en OBS y controlar desde otra pestaña del mismo navegador, abre la misma URL con <strong>?obs=1</strong> en OBS.</div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="dialog"><h2 id="modalTitle">Nombre del equipo</h2><p>Escribe hasta 8 caracteres (se verá mejor con 3 o 4).</p><input id="nameInput" maxlength="8" autocomplete="off"><div class="dialog-actions"><button class="dark" id="cancelName">Cancelar</button><button class="blue" id="saveName">Guardar</button></div></div></div>
+<div class="remote-shade" id="remoteShade"><div class="remote-card"><h2>📱 Control remoto del marcador</h2><p>Escanea este QR con tu teléfono para utilizar los mismos botones del marcador a distancia.</p><div id="qrHolder" class="qr-holder">Preparando código QR…</div><div id="remoteStatus" class="remote-status">Iniciando conexión…</div><p><strong>Dirección para OBS</strong> (fondo transparente):</p><div id="obsUrl" class="remote-url">Preparando enlace…</div><div class="remote-actions"><button class="blue" id="copyObs">Copiar URL OBS</button><button class="dark" id="copyPhone">Copiar enlace teléfono</button><button class="yellow" id="closeRemote">Cerrar ventana</button></div><p style="font-size:12px">Mantén esta página abierta en la computadora mientras transmites. Requiere Internet en ambos dispositivos.</p></div></div>
+<div class="remote-footer" id="remoteFooter"></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div><input id="logoFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" hidden>
+<script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js">
+/* ===== CONEXIÓN REMOTA PEERJS / WEBRTC ===== */
+function sendAction(action,payload={}){
+ if(!remoteConn||!remoteConn.open){notify('Sin conexión con la computadora');return;}
+ remoteConn.send({type:'action',action,payload});
+}
+function broadcastRemote(){
+ if(!hostMode)return;
+ for(const conn of [...clientConnections]){if(conn.open){try{conn.send({type:'state',state});}catch(e){}}}
+}
+function performRemoteAction(message){
+ const p=message.payload||{},a=message.action;
+ if(a==='point'&&['A','B'].includes(p.team)&&[1,-1].includes(p.delta))point(p.team,p.delta);
+ else if(a==='timeout'&&['A','B'].includes(p.team))timeout(p.team);
+ else if(a==='serve'&&['A','B'].includes(p.team))setServe(p.team);
+ else if(a==='nextSet')nextSet();
+ else if(a==='undo')undo();
+ else if(a==='toggle'){checkpoint();state.visible=!state.visible;commit();}
+ else if(a==='format'&&[3,5].includes(p.format)){$('format').value=String(p.format);changeFormat();}
+ else if(a==='reset'){checkpoint();const names=clone(state.names),logos=clone(state.logos),format=state.format,visible=state.visible;state={...defaults(),names,logos,format,visible};commit();}
+ else if(a==='name'&&['A','B'].includes(p.team)&&typeof p.value==='string'){checkpoint();state.names[p.team]=p.value.trim().toUpperCase().slice(0,8);commit();}
+ else if(a==='logo'&&['A','B'].includes(p.team)&&typeof p.value==='string'&&p.value.length<3500000&&/^data:image\/(png|jpeg|webp|svg\+xml);base64,/.test(p.value)){checkpoint();state.logos[p.team]=p.value;commit();}
+}
+function configureRemoteButtons(){
+ for(const t of ['A','B']){
+  $('plus'+t).onclick=()=>sendAction('point',{team:t,delta:1});
+  $('minus'+t).onclick=()=>sendAction('point',{team:t,delta:-1});
+  $('timeout'+t).onclick=()=>sendAction('timeout',{team:t});
+  $('serveBtn'+t).onclick=()=>sendAction('serve',{team:t});
+ }
+ $('nextSet').onclick=()=>sendAction('nextSet');$('undo').onclick=()=>sendAction('undo');
+ $('toggle').onclick=()=>sendAction('toggle');
+ $('reset').onclick=()=>{if(confirm('¿Reiniciar todo el partido? Se conservarán nombres y logos.'))sendAction('reset');};
+ $('format').onchange=()=>sendAction('format',{format:Number($('format').value)});
+}
+function makeUrl(key,id){const url=new URL(location.href);url.search='';url.hash='';url.searchParams.set(key,id);if(key==='viewer')url.searchParams.set('obs','1');return url.toString();}
+function setRemoteStatus(msg){$('remoteStatus').textContent=msg;}
+function qrShow(url){const holder=$('qrHolder');holder.textContent='';if(typeof QRCode==='undefined'){holder.textContent='No se cargó el generador QR. Copia el enlace del teléfono.';return;}new QRCode(holder,{text:url,width:200,height:200,colorDark:'#071028',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});}
+function hostStart(){
+ $('remoteShade').classList.add('open');
+ if(typeof Peer==='undefined'){setRemoteStatus('No se cargó PeerJS. Revisa Internet y recarga la página.');return;}
+ const peer=new Peer(undefined,{debug:1});hostPeer=peer;
+ peer.on('open',id=>{
+  phoneUrl=makeUrl('remote',id);obsUrlText=makeUrl('viewer',id);
+  $('obsUrl').textContent=obsUrlText;qrShow(phoneUrl);
+  setRemoteStatus('QR listo · esperando al teléfono…');
+  $('remoteFooter').textContent='ENLACE REMOTO ACTIVO';
+ });
+ peer.on('connection',conn=>{
+  if(clientConnections.filter(c=>c.open).length>=6){conn.on('open',()=>conn.close());return;}
+  clientConnections.push(conn);
+  conn.on('open',()=>{
+   conn.send({type:'state',state});
+   if(conn.metadata?.role==='controller'){
+    setRemoteStatus('¡Teléfono conectado!');
+    $('remoteShade').classList.remove('open');
+    $('remoteFooter').textContent='● TELÉFONO CONECTADO';
+   }
+  });
+  conn.on('data',data=>{if(conn.metadata?.role==='controller'&&data?.type==='action')performRemoteAction(data);});
+  conn.on('close',()=>{
+   clientConnections=clientConnections.filter(c=>c!==conn);
+   if(!clientConnections.some(c=>c.open&&c.metadata?.role==='controller')){$('remoteFooter').textContent='○ CONTROL DESCONECTADO';setRemoteStatus('Control desconectado · puedes escanear otra vez');}
+  });
+  conn.on('error',()=>{});
+ });
+ peer.on('error',err=>{setRemoteStatus('Error de conexión: '+(err?.message||'comprueba Internet'));});
+ peer.on('disconnected',()=>{setRemoteStatus('Se perdió el servidor de enlace. Reintentando…');});
+}
+function clientStart(){
+ const targetId=remoteMode?remoteId:viewerId;
+ if(remoteMode){configureRemoteButtons();$('phoneStatus').textContent='Conectando con la computadora…';}
+ if(typeof Peer==='undefined'){if(remoteMode)$('phoneStatus').textContent='No se cargó la conexión. Comprueba Internet.';return;}
+ const peer=new Peer(undefined,{debug:1});
+ peer.on('open',()=>{
+  const conn=peer.connect(targetId,{reliable:true,metadata:{role:remoteMode?'controller':'viewer'}});
+  remoteConn=conn;
+  conn.on('open',()=>{remoteReady=true;if(remoteMode)$('phoneStatus').textContent='● Conectado · controla el marcador desde aquí';conn.send({type:'request'});});
+  conn.on('data',data=>{if(data?.type==='state'&&data.state){state=data.state;undoStack=[];render();}});
+  conn.on('close',()=>{remoteReady=false;if(remoteMode)$('phoneStatus').textContent='○ Desconectado. Recarga para reconectar.';});
+  conn.on('error',()=>{if(remoteMode)$('phoneStatus').textContent='Error de conexión. Recarga para reintentar.';});
+ });
+ peer.on('error',err=>{if(remoteMode)$('phoneStatus').textContent='Error: '+(err?.message||'revisa la conexión');});
+}
+$('copyObs').onclick=async()=>{try{await navigator.clipboard.writeText(obsUrlText);notify('Enlace OBS copiado');}catch(e){notify('Copia manualmente el enlace OBS');}};
+$('copyPhone').onclick=async()=>{try{await navigator.clipboard.writeText(phoneUrl);notify('Enlace para teléfono copiado');}catch(e){notify('No se pudo copiar');}};
+$('closeRemote').onclick=()=>$('remoteShade').classList.remove('open');
+if(hostMode)hostStart();else clientStart();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
+/* ===== CONEXIÓN REMOTA PEERJS / WEBRTC ===== */
+function sendAction(action,payload={}){
+ if(!remoteConn||!remoteConn.open){notify('Sin conexión con la computadora');return;}
+ remoteConn.send({type:'action',action,payload});
+}
+function broadcastRemote(){
+ if(!hostMode)return;
+ for(const conn of [...clientConnections]){if(conn.open){try{conn.send({type:'state',state});}catch(e){}}}
+}
+function performRemoteAction(message){
+ const p=message.payload||{},a=message.action;
+ if(a==='point'&&['A','B'].includes(p.team)&&[1,-1].includes(p.delta))point(p.team,p.delta);
+ else if(a==='timeout'&&['A','B'].includes(p.team))timeout(p.team);
+ else if(a==='serve'&&['A','B'].includes(p.team))setServe(p.team);
+ else if(a==='nextSet')nextSet();
+ else if(a==='undo')undo();
+ else if(a==='toggle'){checkpoint();state.visible=!state.visible;commit();}
+ else if(a==='format'&&[3,5].includes(p.format)){$('format').value=String(p.format);changeFormat();}
+ else if(a==='reset'){checkpoint();const names=clone(state.names),logos=clone(state.logos),format=state.format,visible=state.visible;state={...defaults(),names,logos,format,visible};commit();}
+ else if(a==='name'&&['A','B'].includes(p.team)&&typeof p.value==='string'){checkpoint();state.names[p.team]=p.value.trim().toUpperCase().slice(0,8);commit();}
+ else if(a==='logo'&&['A','B'].includes(p.team)&&typeof p.value==='string'&&p.value.length<3500000&&/^data:image\/(png|jpeg|webp|svg\+xml);base64,/.test(p.value)){checkpoint();state.logos[p.team]=p.value;commit();}
+}
+function configureRemoteButtons(){
+ for(const t of ['A','B']){
+  $('plus'+t).onclick=()=>sendAction('point',{team:t,delta:1});
+  $('minus'+t).onclick=()=>sendAction('point',{team:t,delta:-1});
+  $('timeout'+t).onclick=()=>sendAction('timeout',{team:t});
+  $('serveBtn'+t).onclick=()=>sendAction('serve',{team:t});
+ }
+ $('nextSet').onclick=()=>sendAction('nextSet');$('undo').onclick=()=>sendAction('undo');
+ $('toggle').onclick=()=>sendAction('toggle');
+ $('reset').onclick=()=>{if(confirm('¿Reiniciar todo el partido? Se conservarán nombres y logos.'))sendAction('reset');};
+ $('format').onchange=()=>sendAction('format',{format:Number($('format').value)});
+}
+function makeUrl(key,id){const url=new URL(location.href);url.search='';url.hash='';url.searchParams.set(key,id);if(key==='viewer')url.searchParams.set('obs','1');return url.toString();}
+function setRemoteStatus(msg){$('remoteStatus').textContent=msg;}
+function qrShow(url){const holder=$('qrHolder');holder.textContent='';if(typeof QRCode==='undefined'){holder.textContent='No se cargó el generador QR. Copia el enlace del teléfono.';return;}new QRCode(holder,{text:url,width:200,height:200,colorDark:'#071028',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});}
+function hostStart(){
+ $('remoteShade').classList.add('open');
+ if(typeof Peer==='undefined'){setRemoteStatus('No se cargó PeerJS. Revisa Internet y recarga la página.');return;}
+ const peer=new Peer(undefined,{debug:1});hostPeer=peer;
+ peer.on('open',id=>{
+  phoneUrl=makeUrl('remote',id);obsUrlText=makeUrl('viewer',id);
+  $('obsUrl').textContent=obsUrlText;qrShow(phoneUrl);
+  setRemoteStatus('QR listo · esperando al teléfono…');
+  $('remoteFooter').textContent='ENLACE REMOTO ACTIVO';
+ });
+ peer.on('connection',conn=>{
+  if(clientConnections.filter(c=>c.open).length>=6){conn.on('open',()=>conn.close());return;}
+  clientConnections.push(conn);
+  conn.on('open',()=>{
+   conn.send({type:'state',state});
+   if(conn.metadata?.role==='controller'){
+    setRemoteStatus('¡Teléfono conectado!');
+    $('remoteShade').classList.remove('open');
+    $('remoteFooter').textContent='● TELÉFONO CONECTADO';
+   }
+  });
+  conn.on('data',data=>{if(conn.metadata?.role==='controller'&&data?.type==='action')performRemoteAction(data);});
+  conn.on('close',()=>{
+   clientConnections=clientConnections.filter(c=>c!==conn);
+   if(!clientConnections.some(c=>c.open&&c.metadata?.role==='controller')){$('remoteFooter').textContent='○ CONTROL DESCONECTADO';setRemoteStatus('Control desconectado · puedes escanear otra vez');}
+  });
+  conn.on('error',()=>{});
+ });
+ peer.on('error',err=>{setRemoteStatus('Error de conexión: '+(err?.message||'comprueba Internet'));});
+ peer.on('disconnected',()=>{setRemoteStatus('Se perdió el servidor de enlace. Reintentando…');});
+}
+function clientStart(){
+ const targetId=remoteMode?remoteId:viewerId;
+ if(remoteMode){configureRemoteButtons();$('phoneStatus').textContent='Conectando con la computadora…';}
+ if(typeof Peer==='undefined'){if(remoteMode)$('phoneStatus').textContent='No se cargó la conexión. Comprueba Internet.';return;}
+ const peer=new Peer(undefined,{debug:1});
+ peer.on('open',()=>{
+  const conn=peer.connect(targetId,{reliable:true,metadata:{role:remoteMode?'controller':'viewer'}});
+  remoteConn=conn;
+  conn.on('open',()=>{remoteReady=true;if(remoteMode)$('phoneStatus').textContent='● Conectado · controla el marcador desde aquí';conn.send({type:'request'});});
+  conn.on('data',data=>{if(data?.type==='state'&&data.state){state=data.state;undoStack=[];render();}});
+  conn.on('close',()=>{remoteReady=false;if(remoteMode)$('phoneStatus').textContent='○ Desconectado. Recarga para reconectar.';});
+  conn.on('error',()=>{if(remoteMode)$('phoneStatus').textContent='Error de conexión. Recarga para reintentar.';});
+ });
+ peer.on('error',err=>{if(remoteMode)$('phoneStatus').textContent='Error: '+(err?.message||'revisa la conexión');});
+}
+$('copyObs').onclick=async()=>{try{await navigator.clipboard.writeText(obsUrlText);notify('Enlace OBS copiado');}catch(e){notify('Copia manualmente el enlace OBS');}};
+$('copyPhone').onclick=async()=>{try{await navigator.clipboard.writeText(phoneUrl);notify('Enlace para teléfono copiado');}catch(e){notify('No se pudo copiar');}};
+$('closeRemote').onclick=()=>$('remoteShade').classList.remove('open');
+if(hostMode)hostStart();else clientStart();
+</script>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const storageKey='hovers-volleyboard-v1';
+const params=new URLSearchParams(location.search),remoteId=params.get('remote'),viewerId=params.get('viewer');
+const remoteMode=!!remoteId,viewerMode=!!viewerId,hostMode=!remoteMode&&!viewerMode;
+let hostPeer=null,remoteConn=null,clientConnections=[],remoteReady=false,phoneUrl='',obsUrlText='';
+const defaults=()=>({names:{A:'AAAA',B:'BBBB'},logos:{A:'',B:''},points:{A:0,B:0},sets:{A:0,B:0},serve:null,timeouts:{A:0,B:0},history:[],format:5,finishedSet:false,winner:null,visible:true});
+let state=defaults(),undoStack=[],editingTeam='A',logoTeam='A',suppressSync=false;
+try{const loaded=JSON.parse(localStorage.getItem(storageKey));if(loaded&&[3,5].includes(loaded.format))state={...defaults(),...loaded};}catch(e){}
+const channel=typeof BroadcastChannel!=='undefined'?new BroadcastChannel('hovers-volleyboard-sync'):null;
+function clone(x){return JSON.parse(JSON.stringify(x));}
+function save(){if(!hostMode)return;try{localStorage.setItem(storageKey,JSON.stringify(state));}catch(e){notify('No se pudo guardar en este navegador');}if(channel&&!suppressSync)channel.postMessage({type:'state',state});broadcastRemote();}
+function commit(){save();render();}
+function checkpoint(){undoStack.push(clone(state));if(undoStack.length>80)undoStack.shift();}
+function target(){return (state.format===5&&state.sets.A+state.sets.B===4)||(state.format===3&&state.sets.A+state.sets.B===2)?15:25;}
+function requiredSets(){return state.format===5?3:2;}
+function teamName(t){return state.names[t]||'EQUIPO '+t;}
+function notify(message){const e=$('toast');e.textContent=message;e.classList.add('show');clearTimeout(notify.timer);notify.timer=setTimeout(()=>e.classList.remove('show'),2200);}
+function celebration(message){const old=document.querySelector('.banner');if(old)old.remove();const el=document.createElement('div');el.className='banner';el.textContent=message;document.body.appendChild(el);setTimeout(()=>el.remove(),1700);}
+function animate(team){const el=$('points'+team);el.classList.remove('pulse');void el.offsetWidth;el.classList.add('pulse');}
+function render(){for(const t of ['A','B']){$('name'+t).textContent=teamName(t);$('points'+t).textContent=state.points[t];$('sets'+t).textContent=state.sets[t];$('serve'+t).classList.toggle('on',state.serve===t);$('timeout'+t).textContent='Tiempo muerto '+t+' ('+state.timeouts[t]+'/2)';$('timeout'+t).disabled=state.timeouts[t]>=2||state.finishedSet||!!state.winner;$('plus'+t).disabled=state.finishedSet||!!state.winner;$('minus'+t).disabled=state.finishedSet||!!state.winner;const logo=$('logo'+t);const src=state.logos[t];if(src){if(logo.getAttribute('src')!==src)logo.src=src;logo.style.display='block';}else{logo.removeAttribute('src');logo.style.display='none';}}$('setLabel').textContent='SET '+(state.history.length+1)+' · A '+target()+' PUNTOS'+(state.finishedSet?' · FINALIZADO':'');$('history').textContent='SETS ANTERIORES: '+(state.history.length?state.history.map((x,i)=>'S'+(i+1)+' '+x.A+'-'+x.B).join('  |  '):'—');$('timeouts').textContent='TIEMPOS MUERTOS · A '+state.timeouts.A+'/2 · B '+state.timeouts.B+'/2';$('matchStatus').hidden=!state.winner;$('matchStatus').textContent=state.winner?'🏆 GANADOR: '+teamName(state.winner):'';$('stage').classList.toggle('off',!state.visible);$('format').value=String(state.format);$('nextSet').disabled=!state.finishedSet||!!state.winner;$('undo').disabled=!remoteMode&&!undoStack.length;$('format').disabled=(state.history.length>0||state.points.A>0||state.points.B>0||!!state.winner);$('helper').textContent=state.winner?'El partido terminó. Puedes deshacer o reiniciar.':state.finishedSet?'Set finalizado. Pulsa “Siguiente set” para iniciar el próximo.':'Cada rally suma un punto y actualiza el equipo al saque.';}
+function point(t,delta){if(state.finishedSet||state.winner){notify('El set terminó. Avanza al siguiente set.');return;}if(delta<0&&state.points[t]===0)return;checkpoint();state.points[t]=Math.max(0,state.points[t]+delta);if(delta>0){state.serve=t;animate(t);}const a=state.points.A,b=state.points.B,limit=target();if(Math.max(a,b)>=limit&&Math.abs(a-b)>=2){const winner=a>b?'A':'B';state.finishedSet=true;state.sets[winner]++;state.history.push({A:a,B:b});if(state.sets[winner]>=requiredSets())state.winner=winner;celebration((state.winner?'¡CAMPEÓN! ':'¡SET PARA ')+teamName(winner)+'!');}else if(delta>0){if(a===b&&a>=limit-1)celebration('¡EMPATE '+a+' - '+b+'!');else if(Math.max(a,b)>=limit-1&&Math.abs(a-b)===1)celebration('¡PUNTO DE SET!');else celebration('¡PUNTO! '+teamName(t));}commit();}
+function nextSet(){if(!state.finishedSet||state.winner)return;checkpoint();state.points={A:0,B:0};state.timeouts={A:0,B:0};state.finishedSet=false;state.serve=null;commit();celebration('¡INICIA SET '+(state.history.length+1)+'!');}
+function timeout(t){if(state.finishedSet||state.winner||state.timeouts[t]>=2)return;checkpoint();state.timeouts[t]++;commit();celebration('TIEMPO MUERTO · '+teamName(t));}
+function setServe(t){if(state.winner)return;checkpoint();state.serve=t;commit();}
+function undo(){if(!undoStack.length){notify('No hay cambios por deshacer');return;}state=undoStack.pop();commit();}
+function reset(){if(!confirm('¿Reiniciar todo el partido? Se conservarán nombres y logos.'))return;checkpoint();const names=clone(state.names),logos=clone(state.logos),format=state.format,visible=state.visible;state={...defaults(),names,logos,format,visible};commit();}
+function changeFormat(){const fmt=Number($('format').value);if(state.history.length||state.points.A||state.points.B||state.winner){render();notify('El formato solo puede cambiarse antes de iniciar el partido');return;}checkpoint();state.format=fmt;commit();}
+function openName(t){editingTeam=t;$('modalTitle').textContent='Nombre del equipo '+t;$('nameInput').value=state.names[t];$('modal').classList.add('open');$('nameInput').focus();$('nameInput').select();}
+function closeName(){$('modal').classList.remove('open');}
+function saveName(){const value=$('nameInput').value.trim().toUpperCase().slice(0,8);if(!value){notify('Escribe un nombre');return;}if(remoteMode){sendAction('name',{team:editingTeam,value});closeName();return;}checkpoint();state.names[editingTeam]=value;closeName();commit();}
+function uploadLogo(t){logoTeam=t;$('logoFile').value='';$('logoFile').click();}
+$('logoFile').addEventListener('change',function(){const file=this.files&&this.files[0];if(!file)return;if(file.size>2.5*1024*1024){notify('Utiliza un logo de menos de 2.5 MB');return;}if(!['image/png','image/jpeg','image/webp','image/svg+xml'].includes(file.type)){notify('Formato de imagen no válido');return;}const reader=new FileReader();reader.onload=()=>{if(remoteMode){sendAction('logo',{team:logoTeam,value:reader.result});return;}checkpoint();state.logos[logoTeam]=reader.result;commit();};reader.readAsDataURL(file);});
+for(const t of ['A','B']){$('plus'+t).onclick=()=>point(t,1);$('minus'+t).onclick=()=>point(t,-1);$('timeout'+t).onclick=()=>timeout(t);$('serveBtn'+t).onclick=()=>setServe(t);$('nameBtn'+t).onclick=()=>openName(t);$('logoBtn'+t).onclick=()=>uploadLogo(t);}
+$('nextSet').onclick=nextSet;$('undo').onclick=undo;$('reset').onclick=reset;$('format').onchange=changeFormat;$('toggle').onclick=()=>{checkpoint();state.visible=!state.visible;commit();};$('cancelName').onclick=closeName;$('saveName').onclick=saveName;$('nameInput').addEventListener('keydown',e=>{if(e.key==='Enter')saveName();if(e.key==='Escape')closeName();});$('modal').onclick=e=>{if(e.target===$('modal'))closeName();};
+const obs=params.get('obs')==='1';if(obs)document.body.classList.add('obs');if(remoteMode)document.body.classList.add('remote');if(viewerMode)document.body.classList.add('viewer');
+if(hostMode&&channel)channel.onmessage=e=>{if(e.data?.type==='state'&&e.data.state){suppressSync=true;state=e.data.state;undoStack=[];render();broadcastRemote();suppressSync=false;}else if(e.data?.type==='request'){channel.postMessage({type:'state',state});}};
+if(hostMode)window.addEventListener('storage',e=>{if(e.key===storageKey&&e.newValue){try{state=JSON.parse(e.newValue);undoStack=[];render();}catch(err){}}});
+if(hostMode&&channel)channel.postMessage({type:'request'});render();
+
+
+/* ===== CONEXIÓN REMOTA PEERJS / WEBRTC ===== */
+function sendAction(action,payload={}){
+ if(!remoteConn||!remoteConn.open){notify('Sin conexión con la computadora');return;}
+ remoteConn.send({type:'action',action,payload});
+}
+function broadcastRemote(){
+ if(!hostMode)return;
+ for(const conn of [...clientConnections]){if(conn.open){try{conn.send({type:'state',state});}catch(e){}}}
+}
+function performRemoteAction(message){
+ const p=message.payload||{},a=message.action;
+ if(a==='point'&&['A','B'].includes(p.team)&&[1,-1].includes(p.delta))point(p.team,p.delta);
+ else if(a==='timeout'&&['A','B'].includes(p.team))timeout(p.team);
+ else if(a==='serve'&&['A','B'].includes(p.team))setServe(p.team);
+ else if(a==='nextSet')nextSet();
+ else if(a==='undo')undo();
+ else if(a==='toggle'){checkpoint();state.visible=!state.visible;commit();}
+ else if(a==='format'&&[3,5].includes(p.format)){$('format').value=String(p.format);changeFormat();}
+ else if(a==='reset'){checkpoint();const names=clone(state.names),logos=clone(state.logos),format=state.format,visible=state.visible;state={...defaults(),names,logos,format,visible};commit();}
+ else if(a==='name'&&['A','B'].includes(p.team)&&typeof p.value==='string'){checkpoint();state.names[p.team]=p.value.trim().toUpperCase().slice(0,8);commit();}
+ else if(a==='logo'&&['A','B'].includes(p.team)&&typeof p.value==='string'&&p.value.length<3500000&&/^data:image\/(png|jpeg|webp|svg\+xml);base64,/.test(p.value)){checkpoint();state.logos[p.team]=p.value;commit();}
+}
+function configureRemoteButtons(){
+ for(const t of ['A','B']){
+  $('plus'+t).onclick=()=>sendAction('point',{team:t,delta:1});
+  $('minus'+t).onclick=()=>sendAction('point',{team:t,delta:-1});
+  $('timeout'+t).onclick=()=>sendAction('timeout',{team:t});
+  $('serveBtn'+t).onclick=()=>sendAction('serve',{team:t});
+ }
+ $('nextSet').onclick=()=>sendAction('nextSet');$('undo').onclick=()=>sendAction('undo');
+ $('toggle').onclick=()=>sendAction('toggle');
+ $('reset').onclick=()=>{if(confirm('¿Reiniciar todo el partido? Se conservarán nombres y logos.'))sendAction('reset');};
+ $('format').onchange=()=>sendAction('format',{format:Number($('format').value)});
+}
+function makeUrl(key,id){const url=new URL(location.href);url.search='';url.hash='';url.searchParams.set(key,id);if(key==='viewer')url.searchParams.set('obs','1');return url.toString();}
+function setRemoteStatus(msg){$('remoteStatus').textContent=msg;}
+function qrShow(url){const holder=$('qrHolder');holder.textContent='';if(typeof QRCode==='undefined'){holder.textContent='No se cargó el generador QR. Copia el enlace del teléfono.';return;}new QRCode(holder,{text:url,width:200,height:200,colorDark:'#071028',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});}
+function hostStart(){
+ $('remoteShade').classList.add('open');
+ if(typeof Peer==='undefined'){setRemoteStatus('No se cargó PeerJS. Revisa Internet y recarga la página.');return;}
+ const peer=new Peer(undefined,{debug:1});hostPeer=peer;
+ peer.on('open',id=>{
+  phoneUrl=makeUrl('remote',id);obsUrlText=makeUrl('viewer',id);
+  $('obsUrl').textContent=obsUrlText;qrShow(phoneUrl);
+  setRemoteStatus('QR listo · esperando al teléfono…');
+  $('remoteFooter').textContent='ENLACE REMOTO ACTIVO';
+ });
+ peer.on('connection',conn=>{
+  if(clientConnections.filter(c=>c.open).length>=6){conn.on('open',()=>conn.close());return;}
+  clientConnections.push(conn);
+  conn.on('open',()=>{
+   conn.send({type:'state',state});
+   if(conn.metadata?.role==='controller'){
+    setRemoteStatus('¡Teléfono conectado!');
+    $('remoteShade').classList.remove('open');
+    $('remoteFooter').textContent='● TELÉFONO CONECTADO';
+   }
+  });
+  conn.on('data',data=>{if(conn.metadata?.role==='controller'&&data?.type==='action')performRemoteAction(data);});
+  conn.on('close',()=>{
+   clientConnections=clientConnections.filter(c=>c!==conn);
+   if(!clientConnections.some(c=>c.open&&c.metadata?.role==='controller')){$('remoteFooter').textContent='○ CONTROL DESCONECTADO';setRemoteStatus('Control desconectado · puedes escanear otra vez');}
+  });
+  conn.on('error',()=>{});
+ });
+ peer.on('error',err=>{setRemoteStatus('Error de conexión: '+(err?.message||'comprueba Internet'));});
+ peer.on('disconnected',()=>{setRemoteStatus('Se perdió el servidor de enlace. Reintentando…');});
+}
+function clientStart(){
+ const targetId=remoteMode?remoteId:viewerId;
+ if(remoteMode){configureRemoteButtons();$('phoneStatus').textContent='Conectando con la computadora…';}
+ if(typeof Peer==='undefined'){if(remoteMode)$('phoneStatus').textContent='No se cargó la conexión. Comprueba Internet.';return;}
+ const peer=new Peer(undefined,{debug:1});
+ peer.on('open',()=>{
+  const conn=peer.connect(targetId,{reliable:true,metadata:{role:remoteMode?'controller':'viewer'}});
+  remoteConn=conn;
+  conn.on('open',()=>{remoteReady=true;if(remoteMode)$('phoneStatus').textContent='● Conectado · controla el marcador desde aquí';conn.send({type:'request'});});
+  conn.on('data',data=>{if(data?.type==='state'&&data.state){state=data.state;undoStack=[];render();}});
+  conn.on('close',()=>{remoteReady=false;if(remoteMode)$('phoneStatus').textContent='○ Desconectado. Recarga para reconectar.';});
+  conn.on('error',()=>{if(remoteMode)$('phoneStatus').textContent='Error de conexión. Recarga para reintentar.';});
+ });
+ peer.on('error',err=>{if(remoteMode)$('phoneStatus').textContent='Error: '+(err?.message||'revisa la conexión');});
+}
+$('copyObs').onclick=async()=>{try{await navigator.clipboard.writeText(obsUrlText);notify('Enlace OBS copiado');}catch(e){notify('Copia manualmente el enlace OBS');}};
+$('copyPhone').onclick=async()=>{try{await navigator.clipboard.writeText(phoneUrl);notify('Enlace para teléfono copiado');}catch(e){notify('No se pudo copiar');}};
+$('closeRemote').onclick=()=>$('remoteShade').classList.remove('open');
+if(hostMode)hostStart();else clientStart();
+</script>
+</body>
+</html>
